@@ -168,7 +168,10 @@ function! vlime#server#StopCurServer()
 endfunction
 
 function! vlime#server#BuildServerCommandFor_sbcl(vlime_loader, vlime_eval)
-    return ['sbcl', '--load', a:vlime_loader, '--eval', a:vlime_eval]
+	if !executable("rlwrap")
+    	return ['sbcl', '--load', a:vlime_loader, '--eval', a:vlime_eval]
+	endif
+    return ['rlwrap', 'sbcl', '--load', a:vlime_loader, '--eval', a:vlime_eval]
 endfunction
 
 function! vlime#server#BuildServerCommandFor_ccl(vlime_loader, vlime_eval)
